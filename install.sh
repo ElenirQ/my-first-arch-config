@@ -62,7 +62,7 @@ NVIMPLUGINSOPTIONS=""
 
 NVIMOPTIONS=""
 
-NVIMKEYMAP=""
+NVIMKEYMAP="wdwd"
 
 #update system
 
