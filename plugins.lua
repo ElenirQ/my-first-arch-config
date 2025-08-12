@@ -1,0 +1,94 @@
+return {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000
+  },
+  {
+    "andymass/vim-matchup",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end
+  },
+  {
+    "akinsho/toggleterm.nvim",
+    version = "*",
+    config = true
+  },
+  {
+    "rachartier/tiny-glimmer.nvim",
+    event = "VeryLazy",
+    priority = 10, -- Needs to be a really low priority, to catch others plugins keybindings.
+  },
+  {"nvim-treesitter/nvim-treesitter",
+  branch = "master",
+  lazy = false,
+  build = ":TSUpdate"
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    branch = "0.1.x",
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" }, 
+  },
+  {
+    "LintaoAmons/scratch.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      {"nvim-telescope/telescope.nvim"},
+    },
+  },
+  {
+    "hat0uma/csvview.nvim",
+    ---@module "csvview"
+    ---@type CsvView.Options
+    cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+  },
+  {
+    "mcauley-penney/visual-whitespace.nvim",
+    config = true,
+    event = "ModeChanged *:[vV\22]", -- optionally, lazy load on entering visual mode
+  },
+  {
+    "code-biscuits/nvim-biscuits",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    build = ":TSUpdate",
+  },
+  {
+    "jbyuki/instant.nvim"
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+  },
+  {
+    "rktjmp/paperplanes.nvim"
+  },
+  {
+    "rcarriga/nvim-notify"
+  },
+  {
+    "cpea2506/relative-toggle.nvim"
+  },
+  {
+    "0xJohnnyboy/scretch.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+  },
+
+
+
+
+
+
+
+
+
+}
