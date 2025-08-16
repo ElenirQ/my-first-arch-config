@@ -1,16 +1,16 @@
---- Local var:
+--- Local Var:
 
 -- nvim data dir
 local home = vim.fn.stdpath("data")  -- ~/.local/share/nvim
 
 -- Swap dir
-local swap_dir   = home .. "/swap//"
+local swap_dir = home .. "/swap//"
 
 -- Backup dir
 local backup_dir = home .. "/backup//"
 
 -- Undo dir
-local undo_dir   = home .. "/undo//"
+local undo_dir = home .. "/undo//"
 
 -- Is deleate old swap files when open file
 local clean_old_swaps = true
@@ -28,7 +28,10 @@ vim.fn.mkdir(backup_dir, "p")
 vim.fn.mkdir(undo_dir, "p")
 
 
----Other:
+--- Settings:
+
+-- Completion settings
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 -- Swap 
 vim.opt.swapfile = true

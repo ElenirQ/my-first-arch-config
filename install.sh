@@ -1,10 +1,18 @@
 #!/bin/bash
 
+if [ ! -d /home/$USER/ ]; then
+	exit
+fi
+
+#update system
+
+sudo pacman -Suy
 
 
+#install dependence
 
 DEPENDENCE="
-git curl fzf
+git curl
 "
 
 sudo pacman -S $DEPENDENCE
@@ -12,24 +20,32 @@ sudo pacman -S $DEPENDENCE
 
 #variabes
 
-DESKTOP="
+RAM= $(grep MemTotal /proc/meminfo | awk '{print $2}')
 
+DESKTOP="
+hyprland
 "
 
 PYTHON="
-
+python 
 "
 
 TERMINAL="
-q
+qalc 
+fzf
 "
 
 TERMINALAPPS="
-
+lazygit 
+yazi 
+w3m
 "
 
 APPS="
-
+mpv 
+kitty 
+fuzzel
+firefox-developer-edition
 "
 
 OTHER="
@@ -40,19 +56,24 @@ FISH="
 fish fisher
 "
 
-FISHPLUGINS="catppuccin/fish jethrokuan/z PatrickF1/fzf.fish jorgebucaran/replay.fish jorgebucaran/nvm.fish jorgebucaran/spark.fish joseluisq/gitnow jorgebucaran/autopair.fish nickeb96/puffer-fish"
+FISHPLUGINS="
+catppuccin/fish
+jethrokuan/z
+PatrickF1/fzf.fish
+jorgebucaran/replay.fish
+jorgebucaran/nvm.fish
+jorgebucaran/spark.fish
+joseluisq/gitnow
+jorgebucaran/autopair.fish
+nickeb96/puffer-fish
+"
 
 FISHTHEME="Catppuccin Mocha"
-#fish
 
-sudo pacman $FISH
 
-fisher install $FISHPLUGINS
+#config files path
 
-fish_config theme save $FISHTHEME
-#config files
-
-NVIMINIT=""
+NVIMINIT="/home/$USER/.config/nvim/init.lua"
 
 NVIMLAZY=""
 
@@ -62,40 +83,44 @@ NVIMPLUGINSOPTIONS=""
 
 NVIMOPTIONS=""
 
-NVIMKEYMAP="wdwd"
-
-#update system
-
-sudo pacman -Suy
+NVIMKEYMAP=""
 
 
 #install yay
 
-#sudo pacman -S --needed git base-devel
-#git clone https://aur.archlinux.org/yay.git
-#cd ~/yay
-#makepkg -si
+sudo pacman -S --needed git base-devel
+git clone https://aur.archlinux.org/yay.git
+cd ~/yay
+makepkg -si
 
 
 #NVIM
 
 sudo pacman -S nvim
-mkdir ~/.config/nvim
-echo -e "$NVIMINIT" > ~/.config/nvim/init.lua
-mkdir ~/.config/nvim/config
-echo -e "$NVIMOPTIONS" > ~/.config/nvim/config/options.lua
-echo -e "$NVIMKEYMAP" > ~/.config/nvim/config/ketmap.lua
+mkdir /home/$USER/.config/nvim
+mkdir /home/$USER/.config/nvim/config
+cat $NVIMINIT > /home/$USER/.config/nvim/init.lua
+cat $NVIMOPTIONS > /home/$USER/.config/nvim/config/options.lua
+cat $NVIMKEYMAP > /home/$USER/.config/nvim/config/ketmap.lua
 
 #nvim plaugins manager
 
-echo -e "$NVIMLAZY" > ~/.config/nvim/config/lazy.lua
-echo -e "$NVIMPLUGINS" > ~/.config/nvim/config/plugins.lua
-echo -e "$NVIMPLUGINSOPTIONS" > ~/.config/nvim/config/pluginsoptions.lua
+cat $NVIMLAZY > /home/$USER/.config/nvim/config/lazy.lua
+cat $NVIMPLUGINS > /home/$USER/.config/nvim/config/plugins.lua
 
+if [$RAM -ge 2097152]; then 
+  cat $NVIMPLUGINSOPTIONS | | sed "s/memory_change_agresive_lsp/aggressive_mode = false" > ~/.config/nvim/config/pluginsoptions.lua
+else
+  cat $NVIMPLUGINSOPTIONS | | sed "s/memory_change_agresive_lsp/aggressive_mode = true" > ~/.config/nvim/config/pluginsoptions.lua
+fi
 
 
 #install outher pkg
 
-sudo pacman -S $DESKTOP $PYTHON $TERMINAL $TERMINALAPPS $APPS $OTHER
+sudo pacman -S $DESKTOP $PYTHON $TERMINAL $TERMINALAPPS $APPS $OTHER $FISH
+
+fish -c fisher install $FISHPLUGINS
 
 
+
+fish -c fish_config theme save $FISHTHEME

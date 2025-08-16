@@ -1,10 +1,76 @@
+-- LOCAL VAR
 
--- PLUGIN CONFIGS
+local cmp = require("cmp")
+local lspconfig = require("lspconfig")
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 
 --COLORSCHEME
 
+
+-- Set colorscheme
 vim.cmd.colorscheme "catppuccin-mocha"
 
+
+-- PLUGIN CONFIGS
+
+
+-- Autocompletion setup
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      require("luasnip").lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    ["<Tab>"] = cmp.mapping.select_next_item(),
+    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+  }, {
+    { name = "buffer" },
+    { name = "path" },
+  }),
+})
+
+-- Mason setup
+require("mason").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = { "pyright", "lua_ls", "tsserver" },
+  automatic_installation = true,
+})
+
+-- LSP setup handlers
+require("mason-lspconfig").setup_handlers({
+  -- Default for all servers
+  function(server_name)
+    lspconfig[server_name].setup({
+      capabilities = capabilities,
+    })
+  end,
+
+  -- Special config for lua_ls
+  ["lua_ls"] = function()
+    lspconfig.lua_ls.setup({
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          runtime = { version = "LuaJIT" },
+          diagnostics = { globals = { "vim" } },
+          workspace = {
+            library = vim.api.nvim_get_runtime_file("", true),
+            checkThirdParty = false,
+          },
+          telemetry = { enable = false },
+        },
+      },
+    })
+  end,
+})
 
 -- Treesitter config
 
@@ -29,8 +95,7 @@ require("nvim-tree").setup()
 
 require("scratch").setup({
   use_telescope = true,
-  -- fzf-lua is recommanded, since it will order the files by modification datetime desc. (require rg)
-  file_picker = "telescope", -- "fzflua" | "telescope" | nil
+  file_picker = "telescope",
   filetypes = { "lua", "js", "sh", "ts" }, -- you can simply put filetype here
   }
 )

@@ -82,6 +82,36 @@ return {
     "0xJohnnyboy/scretch.nvim",
     dependencies = { "nvim-telescope/telescope.nvim" },
   },
+  
+  
+  --- Lsp and Autocompletion
+  
+  -- LSP Support
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp", -- LSP source for nvim-cmp
+    },
+  },
+
+  -- Autocompletion
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-buffer",   -- buffer words
+      "hrsh7th/cmp-path",     -- file paths
+      "L3MON4D3/LuaSnip",     -- snippets
+      "saadparwaiz1/cmp_luasnip",
+    },
+  },
+
+  -- Installing LSP
+  {
+  "williamboman/mason.nvim",
+  dependencies = {
+    "williamboman/mason-lspconfig.nvim",
+    },
+  }
 
 
 
