@@ -5,26 +5,21 @@ return {
     priority = 1000
   },
   {
-    "andymass/vim-matchup",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    config = function()
-      vim.g.matchup_matchparen_offscreen = { method = "popup" }
-    end
-  },
-  {
     "akinsho/toggleterm.nvim",
     version = "*",
     config = true
-  },
-  {
-    "rachartier/tiny-glimmer.nvim",
-    event = "VeryLazy",
-    priority = 10, -- Needs to be a really low priority, to catch others plugins keybindings.
   },
   {"nvim-treesitter/nvim-treesitter",
   branch = "master",
   lazy = false,
   build = ":TSUpdate"
+  },
+  {
+    "andymass/vim-matchup",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -61,9 +56,6 @@ return {
     "code-biscuits/nvim-biscuits",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
     build = ":TSUpdate",
-  },
-  {
-    "jbyuki/instant.nvim"
   },
   {
     "kevinhwang91/nvim-ufo",
@@ -112,7 +104,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     },
   }
-
+1
 
 
 
